@@ -23,5 +23,21 @@ def main():
         return
     bot.run(get_token())
 
+# bot.py
+
+
+
+async def handle_message(message):
+    if message.author == bot.user:
+        return
+
+    if message.content.startswith('!hello'):
+        await message.channel.send('Hello World!')
+
+@bot.event
+async def on_message(message) -> None:
+    # Start the message handler task in the background
+    bot.loop.create_task(handle_message(message))
+
 if __name__ == '__main__':
     main()

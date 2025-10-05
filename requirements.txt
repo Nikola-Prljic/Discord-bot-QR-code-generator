@@ -2,3 +2,5 @@ discord==2.3.2
 qrcode==8.2
 python-dotenv==1.1.1
 Pillow
+#chatterbot
+#chatterbot_corpus

@@ -1,8 +1,10 @@
 import io
+import os
 import discord
 import qrcode
 import random
 from discord.ext import commands
+from dotenv import load_dotenv
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -21,17 +23,17 @@ async def ping(ctx):
 
 @bot.command()
 async def qr(ctx, *, text: str):
-    if text is None:
-        await ctx.send("❌ Please provide text to generate a QR code.\nExample: `!qr Hello world!`")
-        return
-    
-    # Create QR code in memory
     img = qrcode.make(text)
-    buffer = io.BytesIO()
-    img.save(buffer, format="PNG")
-    buffer.seek(0)
+    img.save("qr.png")
+    await ctx.send(file=discord.File("qr.png"))
 
-    # Send as file
-    await ctx.send(file=discord.File(buffer, filename="qr.png"))
+def main():
+    load_dotenv()
+    token = os.getenv('TOKEN')
+    if token is None:
+        print("[Error] Token is missing")
+        return
+    bot.run(token)
 
-bot.run('1')
+if __name__ == '__main__':
+    main()
